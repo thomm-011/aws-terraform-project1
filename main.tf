@@ -1,6 +1,6 @@
 resource "aws_s3_bucket" "site_bucket" {
-  bucket = var.site_bucket_name
-  force_destroy = true
+  bucket        = var.site_bucket_name
+  force_destroy  = true
 
   tags = {
     Name = var.site_bucket_name
@@ -8,10 +8,10 @@ resource "aws_s3_bucket" "site_bucket" {
 }
 
 resource "aws_s3_bucket_public_access_block" "site_bucket_block" {
-  bucket = aws_s3_bucket.site_bucket.id
-  block_public_acls   = true
-  block_public_policy = true
-  ignore_public_acls  = true
+  bucket                  = aws_s3_bucket.site_bucket.id
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
   restrict_public_buckets = true
 }
 
@@ -57,9 +57,10 @@ resource "aws_cloudfront_distribution" "spa_distribution" {
   }
 }
 
-resource "aws_s3_bucket_policy" "site_bucket_policy" {
-  bucket = aws_s3_bucket.site_bucket.id
-  policy = data.aws_iam_policy_document.s3_policy.json
+resource "aws_iam_policy" "s3_list_bucket" {
+  name        = "s3_list_bucket_policy"
+  description = "Policy to allow listing of S3 bucket"
+  policy      = data.aws_iam_policy_document.s3_policy.json
 }
 
 data "aws_iam_policy_document" "s3_policy" {
@@ -77,3 +78,5 @@ data "aws_iam_policy_document" "s3_policy" {
     }
   }
 }
+
+
