@@ -3,8 +3,7 @@
 Este projeto provisiona uma stack AWS para hospedagem de um site SPA estático, utilizando S3 (sem acesso público) e CloudFront com Origin Access Control (OAC).
 
 ## Estrutura dos arquivos
-- `s3.tf`: recursos do S3 (bucket, bloqueio de acesso público, policy)
-- `cloudfront.tf`: recursos do CloudFront (OAC, distribuição)
+- `main.tf`: todos os recursos (S3, CloudFront, IAM Policy, etc)
 - `variables.tf`: variáveis do projeto
 - `outputs.tf`: outputs do projeto
 - `provider.tf`: configuração do provider AWS
@@ -13,7 +12,8 @@ Este projeto provisiona uma stack AWS para hospedagem de um site SPA estático, 
 - Bucket S3 privado para arquivos do site
 - CloudFront Distribution com OAC
 - Policy do bucket permitindo acesso apenas via CloudFront
-- Permissões IAM necessárias
+- IAM Policy para acesso ao S3
+- Permissões e restrições necessárias
 
 ## Como usar
 1. Configure suas credenciais AWS (ex: via AWS CLI ou variáveis de ambiente)
@@ -32,3 +32,7 @@ Este projeto provisiona uma stack AWS para hospedagem de um site SPA estático, 
 ## Outputs
 - `bucket_name`: Nome do bucket S3
 - `cloudfront_domain_name`: URL da distribuição CloudFront
+
+## Observações
+- O acesso ao S3 é restrito ao CloudFront via OAC e policy específica.
+- A policy IAM não possui bloco `principal`, conforme exigido pela AWS.
